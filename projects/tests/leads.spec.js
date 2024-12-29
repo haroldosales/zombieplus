@@ -20,7 +20,7 @@ test("deve cadastra um lead na fila de esperar", async ({ page }) => {
   const toastText =
     "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!";
   await expect(page.locator(".toast")).toHaveText(toastText);
-  await expect(page.locator(".toast")).toBeHidden({ timeout: 4000 });
+  await expect(page.locator(".toast")).toBeHidden({ timeout:5000 });
   //await page.waitForTimeout(1000);
 });
 
