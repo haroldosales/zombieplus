@@ -17,9 +17,8 @@ test("deve cadastra com email errado ", async ({ page }) => {
    await leadPage.openModal();
    await leadPage.submitLeadForm("test","silva");
 
-  const error = "Email incorreto";
 
- await leadPage.alertHaveText(error)
+ await leadPage.alertHaveText("Email incorreto")
 
   await page.waitForTimeout(1000);
 });
@@ -29,9 +28,9 @@ test("não deve validar campo email nao preenchido ", async ({ page }) => {
   await leadPage.visit();
    await leadPage.openModal();
    await leadPage.submitLeadForm("test","")
-  const error = "Campo obrigatório";
 
-  await leadPage.alertHaveText(error)
+
+  await leadPage.alertHaveText("Campo obrigatório")
 
 
 
@@ -44,9 +43,9 @@ test("não deve validar campo nome nao preenchido ", async ({ page }) => {
    await leadPage.openModal();
    await leadPage.submitLeadForm("","silva@sas.com")
 
-  const error = "Campo obrigatório";
+  
 
-  await leadPage.alertHaveText(error);
+  await leadPage.alertHaveText("Campo obrigatório");
 
 });
 
@@ -58,7 +57,6 @@ test("não deve validar campo nao preenchido ", async ({ page }) => {
    await leadPage.submitLeadForm('', '');
 
 
-  const error = "Campo obrigatório";
 
   await leadPage.alertHaveText([
     "Campo obrigatório",
