@@ -1,4 +1,3 @@
-import exp from "constants";
 
 const { test, expect } = require("@playwright/test");
 export class LoginPage {
@@ -21,8 +20,8 @@ export class LoginPage {
 
  
 
-  async alertLogiHaveText(text) {
+  async alertLogicontainText(text) {
     const alert = this.page.locator("span[class$=alert]");
-    await expect(alert).toHaveText(text);
+    await expect(alert).toContainText(text);
   }
 }

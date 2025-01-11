@@ -21,7 +21,7 @@ test.describe('New Todo', () => {
     await newTodo.press('Enter');
 
     // Make sure the list only has one todo item.
-    await expect(page.getByTestId('todo-title')).toHaveText([
+    await expect(page.getByTestId('todo-title')).tocontainText([
       TODO_ITEMS[0]
     ]);
 
@@ -30,7 +30,7 @@ test.describe('New Todo', () => {
     await newTodo.press('Enter');
 
     // Make sure the list now has two todo items.
-    await expect(page.getByTestId('todo-title')).toHaveText([
+    await expect(page.getByTestId('todo-title')).tocontainText([
       TODO_ITEMS[0],
       TODO_ITEMS[1]
     ]);
@@ -60,12 +60,12 @@ test.describe('New Todo', () => {
   
     // Check test using different methods.
     await expect(page.getByText('3 items left')).toBeVisible();
-    await expect(todoCount).toHaveText('3 items left');
+    await expect(todoCount).tocontainText('3 items left');
     await expect(todoCount).toContainText('3');
-    await expect(todoCount).toHaveText(/3/);
+    await expect(todoCount).tocontainText(/3/);
 
     // Check all items in one call.
-    await expect(page.getByTestId('todo-title')).toHaveText(TODO_ITEMS);
+    await expect(page.getByTestId('todo-title')).tocontainText(TODO_ITEMS);
     await checkNumberOfTodosInLocalStorage(page, 3);
   });
 });
@@ -183,7 +183,7 @@ test.describe('Item', () => {
     await secondTodo.getByRole('textbox', { name: 'Edit' }).press('Enter');
 
     // Explicitly assert the new text value.
-    await expect(todoItems).toHaveText([
+    await expect(todoItems).tocontainText([
       TODO_ITEMS[0],
       'buy some sausages',
       TODO_ITEMS[2]
@@ -214,7 +214,7 @@ test.describe('Editing', () => {
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('buy some sausages');
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).dispatchEvent('blur');
 
-    await expect(todoItems).toHaveText([
+    await expect(todoItems).tocontainText([
       TODO_ITEMS[0],
       'buy some sausages',
       TODO_ITEMS[2],
@@ -228,7 +228,7 @@ test.describe('Editing', () => {
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('    buy some sausages    ');
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Enter');
 
-    await expect(todoItems).toHaveText([
+    await expect(todoItems).tocontainText([
       TODO_ITEMS[0],
       'buy some sausages',
       TODO_ITEMS[2],
@@ -242,7 +242,7 @@ test.describe('Editing', () => {
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('');
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Enter');
 
-    await expect(todoItems).toHaveText([
+    await expect(todoItems).tocontainText([
       TODO_ITEMS[0],
       TODO_ITEMS[2],
     ]);
@@ -253,7 +253,7 @@ test.describe('Editing', () => {
     await todoItems.nth(1).dblclick();
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('buy some sausages');
     await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Escape');
-    await expect(todoItems).toHaveText(TODO_ITEMS);
+    await expect(todoItems).tocontainText(TODO_ITEMS);
   });
 });
 
@@ -292,7 +292,7 @@ test.describe('Clear completed button', () => {
     await todoItems.nth(1).getByRole('checkbox').check();
     await page.getByRole('button', { name: 'Clear completed' }).click();
     await expect(todoItems).toHaveCount(2);
-    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+    await expect(todoItems).tocontainText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
   test('should be hidden when there are no items that are completed', async ({ page }) => {
@@ -315,7 +315,7 @@ test.describe('Persistence', () => {
     const todoItems = page.getByTestId('todo-item');
     const firstTodoCheck = todoItems.nth(0).getByRole('checkbox');
     await firstTodoCheck.check();
-    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1]]);
+    await expect(todoItems).tocontainText([TODO_ITEMS[0], TODO_ITEMS[1]]);
     await expect(firstTodoCheck).toBeChecked();
     await expect(todoItems).toHaveClass(['completed', '']);
 
@@ -324,7 +324,7 @@ test.describe('Persistence', () => {
 
     // Now reload.
     await page.reload();
-    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1]]);
+    await expect(todoItems).tocontainText([TODO_ITEMS[0], TODO_ITEMS[1]]);
     await expect(firstTodoCheck).toBeChecked();
     await expect(todoItems).toHaveClass(['completed', '']);
   });
@@ -346,7 +346,7 @@ test.describe('Routing', () => {
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
     await page.getByRole('link', { name: 'Active' }).click();
     await expect(todoItem).toHaveCount(2);
-    await expect(todoItem).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+    await expect(todoItem).tocontainText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
   test('should respect the back button', async ({ page }) => {

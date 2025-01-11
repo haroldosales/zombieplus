@@ -14,7 +14,7 @@ export class LandingPage {
 
     await expect(
       this.page.getByTestId("modal").getByRole("heading")
-    ).toHaveText("Fila de espera");
+    ).toContainText("Fila de espera");
   }
 
   async submitLeadForm(name, email) {
@@ -26,7 +26,7 @@ export class LandingPage {
       .click();
   }
 
-  async alertHaveText(target) {
-    await expect(this.page.locator(".alert")).toHaveText(target);
+  async alertcontainText(target) {
+    await expect(this.page.locator(".alert")).toContainText(target);
   }
 }

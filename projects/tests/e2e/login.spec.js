@@ -1,57 +1,45 @@
-// @ts-che
-const { test, expect } = require("@playwright/test");
-const { ToastComponent } = require("../pages/components/ToastCompenent");
-const { LoginPage } = require("../pages/LoginPage");
-const { MoviesPage } = require("../pages/MoviesPage")
-let toast;
-let moviesPage
-let loginPage;
+const { test, expect } = require("../suport");
 
-test.beforeEach(({ page }) => {
-  loginPage = new LoginPage(page);
-  toast = new ToastComponent(page);
-  moviesPage = new MoviesPage(page)
-});
 
 test("deve Logar como admin", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("admin@zombieplus.com", "pwd123");
-  await moviesPage.isLoggedin();
+  await page.login.visit();
+  await page.login.submit("admin@zombieplus.com", "pwd123");
+  await page.movies.isLoggedin();
 });
 
 test(" nao deve Logar senha incorreta", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("admin@zombieplus.com", "abc123");
+  await page.login.visit();
+  await page.login.submit("admin@zombieplus.com", "abc123");
 
   const messege =
     "Oops!Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.";
-  await toast.haveText(messege);
+  await page.toast.containText(messege);
 });
 
 test(" nao deve Logar email nao valido ", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("emailvainvalido", "abc123");
+  await page.login.visit();
+  await page.login.submit("emailvainvalido", "abc123");
 
-  await loginPage.alertLogiHaveText("Email incorreto");
+  await page.login.alertLogicontainText("Email incorreto");
 });
 
 test(" nao deve Logar email nao é preenchido", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("", "abc123");
+  await page.login.visit();
+  await page.login.submit("", "abc123");
 
-  await loginPage.alertLogiHaveText("Campo obrigatório");
+  await page.login.alertLogicontainText("Campo obrigatório");
 });
 
 test(" nao deve Logar senha nao é preeenchida ", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("qa@max.com", "");
+  await page.login.visit();
+  await page.login.submit("qa@max.com", "");
 
-  await loginPage.alertLogiHaveText("Campo obrigatório");
+  await page.login.alertLogicontainText("Campo obrigatório");
 });
 
 test(" nao deve Logar sem nenhum campo preeenchida ", async ({ page }) => {
-  await loginPage.visit();
-  await loginPage.submit("", "");
+  await page.login.visit();
+  await page.login.submit("", "");
 
-  await loginPage.alertLogiHaveText(["Campo obrigatório", "Campo obrigatório"]);
+  await page.login.alertLogicontainText(["Campo obrigatório", "Campo obrigatório"]);
 });

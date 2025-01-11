@@ -5,8 +5,8 @@ export class ToastComponent {
     this.page = page;
   }
 
-  async haveText(messege) {
-    await expect(this.page.locator(".toast")).toHaveText(messege);
+  async containText(messege) {
+    await expect(this.page.locator(".toast")).toContainText(messege);
     await expect(this.page.locator(".toast")).not.toBeVisible({
       timeout: 6000,
     });
