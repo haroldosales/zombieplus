@@ -10,7 +10,8 @@ const test = base.extend({
     page: async  ({ page }, use) => {     
 
         const context = page
-        context['lading'] = new LandingPage(page)
+
+        context['landing'] = new LandingPage(page)
         context['login'] = new LoginPage(page)
         context['movies'] = new MoviesPage(page)
         context['toast'] = new ToastComponent(page)
